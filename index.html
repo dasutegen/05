@@ -77,7 +77,7 @@ html:not(.has-touch) .mobile{display:none}
 @media(max-width:520px){.lvgrid{grid-template-columns:repeat(3,1fr)}}
 </style><meta name="theme-color" content="#101c37"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Dastan2026"></head><body><main class="shell"><header class="top"><div class="brand">🎮 <span>Dastan2026</span></div><div class="stats"><div class="pill">🌟 <b id="level">1</b>/100</div><div class="pill">🟡 <b id="coins">0</b></div><div class="pill">🔫 <b id="ammo">0</b></div><div class="pill">❤️ <b id="lives">3</b></div><button class="ic" id="invBtn" title="Достарды шақыру" style="display:none">🔗</button><button class="ic" id="fsBtn" title="Толық экран">⛶</button><button class="ic" id="pauseBtn" title="Үзіліс (P)">⏸</button><button class="ic" id="muteBtn" title="Дыбыс (M)">🔊</button></div></header>
 <section class="stage"><canvas id="game" width="960" height="540"></canvas>
-<div class="overlay" id="overlay"><div class="card" id="loginCard"><h1 id="authTitle">Кіру</h1><p>Ойынға кіру үшін логин мен құпиясөзді енгіз.</p>
+<div class="overlay" id="overlay"><div class="card" id="loginCard"><h1 id="authTitle">Тіркелу</h1><p>Ойын құны: <strong>$1.11</strong></p><p>Аккаунт құру үшін логин мен құпиясөзді енгіз.</p>
 <form id="authForm" autocomplete="on"><label class="field">Логин<input type="text" id="uName" autocomplete="username" maxlength="20" required></label>
 <label class="field">Құпиясөз<input type="password" id="uPass" autocomplete="current-password" minlength="6" required></label>
 <label class="field" id="pass2Row" style="display:none">Құпиясөзді қайтала<input type="password" id="uPass2" autocomplete="new-password"></label>
@@ -97,7 +97,7 @@ html:not(.has-touch) .mobile{display:none}
 <label class="chk"><input type="checkbox" id="useFace"> Өз салған бетімді қолдану</label>
 <div class="row"><button class="btn alt sm" id="faceBtn">🎨 Бетімді салу</button><button class="btn alt sm" id="coopBtn">👥 Бірге ойнау</button><button class="btn alt sm" id="shopBtn">🛒 Дүкен</button><button class="btn alt sm" id="outBtn">🚪 Аккаунттан шығу</button></div></div>
 <button class="btn" id="start">Жаңа ойын</button><button class="btn alt" id="lvlBtn">🗺 Деңгейлер</button><button class="btn alt" id="cont" style="display:none"></button><button class="btn alt" id="exitBtn">Шығу</button>
-<p class="hint">A/D жүру · W/Space секіру (екі рет) · I ату · J жұдырық · K тебу · L қалқан · P үзіліс · M дыбыс<br>Прогресс аккаунтыңа автоматты сақталады.</p><p class="note" id="iosTip" style="display:none">iPhone: Safari-де «Бөлісу» → «Үй экранына қосу» таңда, ойын толық экранда ашылады.</p><p class="rot">📱 Телефонды көлденең ұстасаң, ойын үлкенірек көрінеді.</p></div>
+<p class="hint">A/D жүру · W/Space секіру (екі рет) · I ату · J жұдырық · K тебу · L қалқан · P үзіліс · M дыбыс<br>Прогресс аккаунтыңа автоматты сақталады.</p><p class="note" id="iosTip" style="display:none">iPhone: Safari-де «Бөлісу» → «Үй экранына қосу» таңда, ойын толық экранда ашылады.</p></div>
 <div class="card" id="faceEd" style="display:none"><h1>🎨 Бетіңді сал</h1><p>Дөңгелектің ішіне өз бетіңді сал: ол кейіпкеріңнің басына қойылады.</p><canvas id="faceCv" width="128" height="128"></canvas><div class="tools" id="swatches"></div>
 <div class="tools" style="margin-top:8px"><label>Қалыңдық <input type="range" id="fsize" min="2" max="14" value="5"></label><label>Тері түсі <input type="color" id="skin" value="#ffd2a3"></label><button class="btn alt sm" id="feraser">🧽 Өшіргіш</button><button class="btn alt sm" id="fclear">🗑 Тазалау</button></div>
 <div class="row"><button class="btn" id="faceSave">Сақтау</button><button class="btn alt" id="faceDel">Бетті алып тастау</button><button class="btn alt" id="faceBack">Артқа</button></div></div></div>
@@ -526,7 +526,7 @@ function renderShop(){const box=$('#shopList');box.innerHTML='';$('#shopCoins').
   row.appendChild(b);box.appendChild(row)}}
 $('#shopBtn').onclick=()=>{renderShop();showCard('shopCard')};$('#shopBack').onclick=()=>showOv('Dastan2026','Кейіпкерді таңда да, ойынды баста!','menu');
 // ---- Аккаунт (логин + құпиясөз, осы құрылғының браузерінде)
-const UKEY='dastan2026.users',SKEY='dastan2026.session';let regMode=false,fails=0,lockUntil=0;
+const UKEY='dastan2026.users',SKEY='dastan2026.session';let regMode=true,fails=0,lockUntil=0;
 const users=()=>{try{return JSON.parse(localStorage.getItem(UKEY))||{}}catch(e){return{}}};
 const b64=a=>btoa(String.fromCharCode(...new Uint8Array(a))),unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 const randSalt=()=>{const a=new Uint8Array(16);if(typeof crypto!=='undefined'&&crypto.getRandomValues)crypto.getRandomValues(a);else for(let i=0;i<16;i++)a[i]=Math.random()*256;return b64(a)};
@@ -534,6 +534,7 @@ async function hashPw(pw,salt,it){if(typeof crypto!=='undefined'&&crypto.subtle)
  let h=pw+salt;for(let i=0;i<30000;i++)h=sum(h+i)+salt;return'x'+h}
 function updAuth(){$('#authTitle').textContent=regMode?'Тіркелу':'Кіру';$('#pass2Row').style.display=regMode?'':'none';$('#authBtn').textContent=regMode?'Аккаунт құру':'Кіру';$('#authSwitch').textContent=regMode?'Аккаунтың бар ма? Кіру':'Аккаунтың жоқ па? Тіркел';$('#uPass').setAttribute('autocomplete',regMode?'new-password':'current-password');$('#authErr').textContent=''}
 function showLogin(){regMode=false;updAuth();showCard('loginCard');ov.style.display='flex'}
+function showSignup(){regMode=true;updAuth();showCard('loginCard');ov.style.display='flex'}
 function enter(name,remember){const key=name.toLowerCase();SAVE_KEY='dastan2026.save.v2.'+key;BAK_KEY=SAVE_KEY+'.bak';user={name,key,id:(users()[key]||{}).id||0};ensureId(key).then(id=>{if(user&&user.key===key){user.id=id||0;$('#stats').textContent=statsLine();$('#myId').textContent=user.id||'—'}});save=loadSave();best=save.best;muted=save.muted;
  try{localStorage.removeItem(SKEY);sessionStorage.removeItem(SKEY);(remember?localStorage:sessionStorage).setItem(SKEY,key)}catch(e){}
  loadFace();$('#hero').value=save.hero;$('#useFace').checked=!!(save.useFace&&save.face);$('#muteBtn').textContent=muted?'🔇':'🔊';sync();showOv('Dastan2026','Қош келдің, '+name+'! 100 деңгей, 7 карта, қорқынышты құбыжықтар.','menu');openPending()}
@@ -677,10 +678,109 @@ async function enterCloud(name,id,hash,remember){const key=name.toLowerCase();SA
  persist();loadFace();$('#hero').value=save.hero;$('#useFace').checked=!!(save.useFace&&save.face);$('#muteBtn').textContent=muted?'🔇':'🔊';sync();
  showOv('Dastan2026','Қош келдің, '+name+'! 100 деңгей, 7 карта, қорқынышты құбыжықтар.','menu');openPending()}
 updAuth();{let sk=null,rem=false;try{sk=localStorage.getItem(SKEY);rem=!!sk;sk=sk||sessionStorage.getItem(SKEY)}catch(e){}if(cloud()){let s=null;try{s=JSON.parse(sk)}catch(e){}
-  if(s&&s.h&&s.n)rpc('login_account',{p_login:s.n,p_hash:s.h}).then(r=>r.ok?enterCloud(r.name,r.id,s.h,rem):showLogin()).catch(()=>showLogin());else showLogin()}
- else{const u=sk&&users()[sk];if(u)enter(u.name,rem);else showLogin()}
- $('#authNote').textContent=cloud()?'Логиніңіз бүкіл әлемде бірегей: оны басқа ешкім ала алмайды. Өз логинің мен құпиясөзіңмен кез келген құрылғыдан кіре аласың, прогресс бірге жүреді. Құпиясөзді қалпына келтіру мүмкін емес, оны жадыңда сақта.':'⚠ Серверге қосылмаған режим: логин осы құрылғыда ғана бірегей. Ғаламдық бірегей логин үшін README-дегі Supabase қадамдарын орында.'}
+  if(s&&s.h&&s.n)rpc('login_account',{p_login:s.n,p_hash:s.h}).then(r=>r.ok?enterCloud(r.name,r.id,s.h,rem):showLogin()).catch(()=>showLogin());else showSignup()}
+ else{const a=users(),u=sk&&a[sk];if(u)enter(u.name,rem);else if(!Object.keys(a).length)showSignup();else showLogin()}
+ $('#authNote').textContent=cloud()?'Логиніңіз бүкіл әлемде бірегей: оны басқа ешкім ала алмайды. Өз логинің мен құпиясөзіңмен кез келген құрылғыдан кіре аласың, прогресс бірге жүреді. Құпиясөзді қалпына келтіру мүмкін емес, оны жадыңда сақта.':''}
 })();
 
 </script>
+<!-- Dastan2026 language patch: paste at the very end of the file, after the game's own script -->
+<style>
+#langBtn{width:auto;height:34px;border-radius:99px;padding:0 11px;font:800 12px system-ui;display:inline-flex;align-items:center;gap:4px}
+#langBtn span{opacity:.5}#langBtn span.on{opacity:1;color:#e89a00}#langBtn i{opacity:.4;font-style:normal}
+.top{position:relative;z-index:25!important}
+html[lang=en] .lvl.cur::before{content:'Start'}
+</style>
+<script>
+(()=>{const run=()=>{try{
+if(!document.getElementById("game")){document.body.insertAdjacentHTML("afterbegin","<p style=\"font:700 16px system-ui;padding:16px;color:#b00020\">⚠ Ойын коды табылмады. Бұл файл — тек тіл патчы. Оны ойынның өз HTML файлының соңына (&lt;/body&gt; алдына) қосу керек. / Game code not found: this file is only the language patch. Paste it into the game HTML file, right before the closing body tag.</p>");return}
+const D={
+"Кіру":"Sign in","Қонақ ретінде ойнау (аккаунтсыз)":"Play as guest (no account)","Тіркелу":"Sign up","Ойынға кіру үшін логин мен құпиясөзді енгіз.":"Enter your username and password to play.","Логин":"Username","Құпиясөз":"Password","Құпиясөзді қайтала":"Repeat password","Осы құрылғыда мені есте сақта":"Remember me on this device","Аккаунт құру":"Create account","Аккаунтың жоқ па? Тіркел":"No account? Sign up","Аккаунтың бар ма? Кіру":"Have an account? Sign in",
+"Бірге ойнау":"Play together","Менің ID:":"My ID:","бөлмеде ең көбі 4 ойыншы":"up to 4 players per room","Бөлме ашу":"Create room","Досыңның ID нөмірі":"Friend's ID","Қосылу":"Join","Артқа":"Back",
+"Телефоннан да, ноутбуктан да қосылуға болады. Бөлме ашқан соң жоғарғы 🔗 батырмасымен достарыңа шақыру сілтемесін жібер: ол ID-ді өзі толтырады. Әр адам өз құрылғысында өз экранын, өз камерасын көреді.":"You can join from a phone or a laptop. After creating a room, send an invite link to your friends with the 🔗 button at the top: it fills in the ID automatically. Everyone sees their own screen and camera on their own device.",
+"Бөлме ашсаң, достарың сенің ID-ің арқылы қосылады және сенің деңгейіңде бірге ойнайды.":"If you create a room, your friends join with your ID and play together on your level.",
+"Ғаламдық ID тіркелімі қосылмаған: ID тек осы құрылғыда берілді және басқа құрылғылармен қайталануы мүмкін. README-дегі Supabase қадамдарын орында.":"Global ID registry is not connected: the ID was issued on this device only and may repeat on other devices. Follow the Supabase steps in the README.",
+"Деңгейлер":"Levels","Деңгейлер бірінен соң бірі ашылады. Әр деңгейден 1–5 ⭐ аласың: өмір жоғалтпасаң, тиын мен жауларды көп жинасаң және тез өтсең, жұлдыз көп болады.":"Levels unlock one after another. Each level gives 1–5 ⭐: lose no lives, collect many coins and defeat enemies, and finish quickly for more stars.",
+"Дүкен":"Shop","Қалтаңда:":"In your pocket:","Жинаған тиыныңды күшейтулерге жұмса.":"Spend your coins on upgrades.",
+"Кейіпкерді таңда:":"Choose your hero:","Саяхатшы":"Explorer","Ниндзя":"Ninja","Робот":"Robot","Сиқыршы":"Wizard","Ғарышкер":"Astronaut","Өз салған бетімді қолдану":"Use my own drawn face","Бетімді салу":"Draw my face","Аккаунттан шығу":"Sign out","Жаңа ойын":"New game","Шығу":"Exit","Жалғастыру":"Resume","Қайта ойнау":"Play again",
+"A/D жүру · W/Space секіру (екі рет) · I ату · J жұдырық · K тебу · L қалқан · P үзіліс · M дыбыс":"A/D move · W/Space jump (twice) · I shoot · J punch · K kick · L shield · P pause · M sound","Прогресс аккаунтыңа автоматты сақталады.":"Progress is saved to your account automatically.",
+"iPhone: Safari-де «Бөлісу» → «Үй экранына қосу» таңда, ойын толық экранда ашылады.":"iPhone: in Safari choose “Share” → “Add to Home Screen” and the game opens full screen.",
+"Телефонды көлденең ұстасаң, көрініс үлкен болады. Үй экранына қоссаң, ойын толық экранда ашылады.":"Hold your phone sideways for a bigger view. Add the game to your Home Screen to open it full screen.",
+"Бетіңді сал":"Draw your face","Дөңгелектің ішіне өз бетіңді сал: ол кейіпкеріңнің басына қойылады.":"Draw your face inside the circle: it will be placed on your hero's head.","Қалыңдық":"Thickness","Тері түсі":"Skin color","Өшіргіш":"Eraser","Тазалау":"Clear","Сақтау":"Save","Бетті алып тастау":"Remove face",
+"Достарды шақыру":"Invite friends","Толық экран":"Fullscreen","Үзіліс (P)":"Pause (P)","Дыбыс (M)":"Sound (M)","Ату":"Shoot","Жұдырық":"Punch","Тебу":"Kick","Қалқан":"Shield","Секіру":"Jump","Dastan2026 — платформер":"Dastan2026 — platformer",
+"Логиніңіз бүкіл әлемде бірегей: оны басқа ешкім ала алмайды. Өз логинің мен құпиясөзіңмен кез келген құрылғыдан кіре аласың, прогресс бірге жүреді. Құпиясөзді қалпына келтіру мүмкін емес, оны жадыңда сақта.":"Your username is globally unique: nobody else can take it. Sign in from any device with your username and password and your progress goes with you. Passwords cannot be recovered, so remember it.",
+"100 деңгейлік шытырман оқиға! Тиын мен оқ жинап, жауларды жеңіп, әр 10-деңгейдегі бастықты жық.":"A 100-level adventure! Collect coins and ammo, defeat enemies and beat the boss every 10th level.","Кейіпкерді таңда да, ойынды баста!":"Pick your hero and start the game!","Үзіліс":"Pause","Dastan2026: бірге ойнайық! Бөлме ID:":"Dastan2026: let's play together! Room ID:","Ойын аяқталды":"Game over","100 ДЕҢГЕЙДІҢ БӘРІН ӨТТІҢ! 🏆":"YOU BEAT ALL 100 LEVELS! 🏆","Жеңдіңдер! 🏆":"You won! 🏆","Бөлме иесі шықты.":"The room host left.","Бөлмеден шықтың.":"You left the room.","Бөлмемен байланыс үзілді.":"Connection to the room was lost.","Ойыннан шықтың. Прогресс сақталды.":"You left the game. Progress saved.","Бет алынып тасталды.":"Face removed.","Бетің сақталды! Енді кейіпкерің сенің бетіңмен ойнайды 🎉":"Face saved! Your hero now plays with your face 🎉","Бөлмеден шығасың ба?":"Leave the room?",
+"Тым көп қате әрекет. 30 секундтан кейін қайталап көр.":"Too many failed attempts. Try again in 30 seconds.","Тым көп қате әрекет. 5 минуттан кейін қайталап көр.":"Too many failed attempts. Try again in 5 minutes.","Логин: 3–20 таңба, тек әріп, сан және _":"Username: 3–20 characters, letters, digits and _ only","Құпиясөз кемінде 6 таңба болсын":"Password must be at least 6 characters","Логин немесе құпиясөз қате":"Wrong username or password","Бұл логин бос емес":"This username is taken","Құпиясөздер сәйкес емес":"Passwords do not match","Браузер сақтауға рұқсат бермейді":"The browser does not allow saving",
+"Бұл логин бос емес: оны басқа адам алып қойған. Өз логинінді таңда.":"This username is taken by someone else. Choose your own.","10000 ID таусылды, тіркеу жабық.":"All 10000 IDs are used, registration is closed.","Серверге қосылу мүмкін болмады. Интернетті тексер.":"Could not reach the server. Check your internet.",
+"Алдымен ID керек (интернет қажет). Қайта кіріп көр.":"An ID is needed first (internet required). Try signing in again.","PeerJS жүктелмеді. Интернетті тексер.":"PeerJS failed to load. Check your internet.","Бұл ID қазір басқа құрылғыда ашық.":"This ID is currently open on another device.","ID 1–10000 аралығында болсын":"ID must be between 1 and 10000","Алдымен өз ID-ің керек (интернет қажет).":"You need your own ID first (internet required).","Бұл — өз ID-ің":"This is your own ID","Қосылу уақыты бітті. ID дұрыс па, бөлме ашық па?":"Connection timed out. Is the ID correct and the room open?","Бұл ID-мен ашық бөлме табылмады":"No open room found with this ID","Бөлме толы (4/4)":"Room is full (4/4)","ID әлі берілмеді (интернет керек).":"ID not issued yet (internet required).",
+"Қаһарман":"Hero","Ойыншы":"Player","Супер Батыр оянды!":"Super Hero awakened!","Тұмар қорғады":"The amulet protected you","уақыт":"time added","Жеңілмес!":"Invincible!","БАСТЫҚ ЖЕҢІЛДІ!":"BOSS DEFEATED!","Сілтеме көшірілді":"Link copied","30 секунд ұста!":"Hold for 30 seconds!",
+"Мәреге жет":"Reach the finish","3 кілт тап":"Find 3 keys","Жауларды жең":"Defeat the enemies","Тиын жина":"Collect coins","Уақытқа үлгер!":"Beat the clock!","Алаңды қорға: 30 секунд":"Defend the arena: 30 seconds","Жалыннан қаш!":"Escape the flames!","Бастықты жең":"Defeat the boss","Алаң қорғалды":"Arena defended","Алаңға жет":"Reach the arena",
+"Кілттерді тап":"Find the keys","Уақытқа үлгер":"Beat the clock","Алаңды қорға":"Defend the arena","Жалыннан қаш":"Escape the flames",
+"КӨКТЕМГІ ОРМАН":"SPRING FOREST","ҚҰМДЫ ШӨЛ":"SANDY DESERT","МҰЗДЫ ТАУЛАР":"ICY MOUNTAINS","ТҮНГІ ҚАЛА":"NIGHT CASTLE","ЖАНАРТАУ АРАЛЫ":"VOLCANO ISLAND","ҒАРЫШ ӘЛЕМІ":"SPACE WORLD","ҚАЗАҚСТАН ДАЛАСЫ":"KAZAKH STEPPE",
+"Жалмауыз кемпір":"Devouring Crone","Айдаһар":"Dragon","Дәу":"Giant","Жезтырнақ":"Copperclaw","Албасты":"Albasty","Мыстан":"Mystan","Доктор Дум":"Doctor Doom","Алып":"Colossus","Темір Хан":"Iron Khan","Қара Хан":"Black Khan","Дум":"Doom",
+"Алтын адам":"Golden Man","Домбыра":"Dombra","Іле қызғалдағы":"Ili Tulip","Бәйтерек":"Baiterek",
+"Қолдануда":"Equipped","Таңдау":"Select","Алынды":"Owned",
+"Қосымша өмір":"Extra life","Әр жаңа ойынды +1 өмірмен бастайсың":"Start every new game with +1 life","Бастапқы оқ":"Starting ammo","Ойын басында +10 оқ":"+10 ammo at the start","Берік қалқан":"Sturdy shield","Қалқан қуаты баяу таусылады":"Shield energy drains more slowly","Жүйрік аяқ":"Swift feet","Жүгіру жылдамдығы +7%":"Running speed +7%","Тиын магниті":"Coin magnet","Жақын тиындар өздігінен тартылады":"Nearby coins are pulled to you","Тақия":"Taqiya cap","Ою-өрнекті қазақ тақиясы":"An ornamented Kazakh skullcap","Алтын із":"Golden trail","Артыңнан алтын ұшқындар қалады":"Golden sparks follow you","Темір етік":"Iron boots","Найза-тікенектердің үстімен зиянсыз жүресің":"Walk over spikes unharmed","Қылыш":"Sword","J: кең сілтейді, 2 зиян, 3 жауға дейін тиеді":"J: wide swing, 2 damage, hits up to 3 enemies","Айбалта":"Battle axe","J: ауыр соққы, 3 зиян, жауды шайқалтып тастайды":"J: heavy blow, 3 damage, staggers enemies","Садақ":"Bow","I: жебе атады, жауларды тесіп өтеді, 2 зиян (оқ керек)":"I: fires arrows that pierce enemies, 2 damage (needs ammo)","Отты таяқ":"Fire staff","I: от добы, жарылып маңайдағы жауларға да тиеді (оқ керек)":"I: fireball that explodes and hits nearby enemies (needs ammo)","Тұмар":"Tumar amulet","Артефакт: әр деңгейде бірінші соққыдан қорғайды":"Artifact: blocks the first hit on every level","Бүркіт қанаты":"Eagle wing","Артефакт: ауада секіру түймесін ұстасаң, баяу сырғып түсесің":"Artifact: hold jump in the air to glide down slowly","Қобыз":"Kobyz","Артефакт: соққы алғанда маңайдағы жауларды дыбыс толқынымен тоқтатады":"Artifact: when hit, a sound wave stuns nearby enemies","Алтын дулыға":"Golden helmet","Артефакт: жауды басқанда 2 зиян және биік секіресің":"Artifact: stomping deals 2 damage and you jump higher","Қазына қалтасы":"Treasure pouch","Артефакт: жиналған тиын 25% көп болады":"Artifact: collected coins are increased by 25%"
+};
+const t=x=>D[x]||x;
+const P=[
+[/^Қош келдің, (.+)! 100 деңгей, 7 карта, қорқынышты құбыжықтар\.$/,x=>`Welcome, ${x[1]}! 100 levels, 7 maps, scary monsters.`],
+[/^(\d+)-деңгей · (\d+) ұпай$/,x=>`Level ${x[1]} · ${x[2]} points`],
+[/^(\d+)-деңгейден жалғастыру$/,x=>`Continue from level ${x[1]}`],
+[/^ДЕҢГЕЙ (\d+) ӨТТІ\s+(\S+)$/,x=>`LEVEL ${x[1]} COMPLETE  ${x[2]}`],
+[/^ДЕҢГЕЙ (\d+)$/,x=>`LEVEL ${x[1]}`],
+[/^(\d+)\. (.+)$/,x=>`${x[1]}. ${t(x[2])}`],
+[/^(\d+)–(\d+) · (.+) әлемі$/,x=>`${x[1]}–${x[2]} · ${t(x[3])} world`],
+[/^Кілт: (.+)$/,x=>`Key: ${x[1]}`],[/^Жау: (.+)$/,x=>`Enemy: ${x[1]}`],[/^Тиын: (.+)$/,x=>`Coins: ${x[1]}`],
+[/^Ұста: (\d+) с$/,x=>`Hold: ${x[1]} s`],[/^(\d+) с$/,x=>`${x[1]} s`],
+[/^(.+) тірілді!$/,x=>`${t(x[1])} revived!`],[/^(.+) жеңілді$/,x=>`${t(x[1])} was defeated`],
+[/^Керемет! (\d+) ұпаймен Dastan2026 әлемін бағындырдың! Жалпы рейтинг: (\S+) \((\d+)\/500 ⭐\)$/,x=>`Amazing! You conquered the Dastan2026 world with ${x[1]} points! Overall rating: ${x[2]} (${x[3]}/500 ⭐)`],
+[/^(\d+)-деңгейде тоқтадың\. (\d+) ұпай жинадың\. Рекордың: (\d+)-деңгей\.$/,x=>`You stopped at level ${x[1]}. You scored ${x[2]} points. Your record: level ${x[3]}.`],
+[/^Команда жеңілді\. Деңгей: (\d+)$/,x=>`The team lost. Level: ${x[1]}`],
+[/^Желі қатесі: (.+)$/,x=>`Network error: ${x[1]}`],
+[/^([\s\S]*) · ⚠ Бұл браузерде сақтау өшірулі$/,x=>`${x[1]} · ⚠ Saving is disabled in this browser`]
+];
+let lang='kk';try{lang=localStorage.getItem('dastan2026.lang')==='en'?'en':'kk'}catch(e){}
+const cache=new Map();
+function tr(s){if(lang!=='en'||typeof s!=='string'||s.length>600)return s;let h=cache.get(s);if(h!==undefined)return h;h=s;
+ try{const m=s.match(/^([^\p{L}\p{N}]*)([\s\S]*?)([\s✓]*)$/u),c=m[2];if(c){let r=D[c];
+ if(r===undefined)for(const[re,f]of P){const x=c.match(re);if(x){r=f(x);break}}
+ if(r!==undefined)h=m[1]+r+m[3]}}catch(e){}
+ if(cache.size>4000)cache.clear();cache.set(s,h);return h}
+// Canvas ішіндегі мәтін
+const CP=CanvasRenderingContext2D.prototype,ft=CP.fillText,mt=CP.measureText;
+CP.fillText=function(s,...a){return ft.call(this,tr(String(s)),...a)};
+CP.measureText=function(s){return mt.call(this,tr(String(s)))};
+if(navigator.share){const os=navigator.share.bind(navigator);navigator.share=d=>os(Object.assign({},d,{text:tr(d.text)}))}
+const oc=window.confirm;window.confirm=s=>oc.call(window,tr(s));
+// DOM мәтіні
+const rec=new WeakMap();
+function doNode(n){const v=n.data;let r=rec.get(n);if(!r||(v!==r.kk&&v!==r.en)){r={kk:v,en:v};rec.set(n,r)}const w=lang==='en'?tr(r.kk):r.kk;r.en=w;if(n.data!==w)n.data=w}
+function doAttr(el,a){const v=el.getAttribute(a);if(v==null)return;let o=el['_k'+a];if(o===undefined||(v!==o&&v!==el['_e'+a]))o=el['_k'+a]=v;const w=lang==='en'?tr(o):o;el['_e'+a]=w;if(v!==w)el.setAttribute(a,w)}
+function apply(root){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){const p=n.parentNode&&n.parentNode.nodeName;if(p!=='SCRIPT'&&p!=='STYLE')doNode(n)}
+ const q=root.querySelectorAll?root.querySelectorAll('[title],[aria-label]'):[];for(const el of q){doAttr(el,'title');doAttr(el,'aria-label')}}
+const titleKK=document.title;
+// Ауыстырғыш батырма: ҚАЗ / EN
+const b=document.createElement('button');b.id='langBtn';b.className='ic';b.type='button';b.title='Тіл / Language';
+b.innerHTML='<span data-l="kk">ҚАЗ</span><i>/</i><span data-l="en">EN</span>';
+(document.querySelector('.stats')||document.body).prepend(b);
+// Қонақ режимі: аккаунтсыз бірден кіру
+{const C=window.DG_CONFIG||{},sw=document.getElementById("authSwitch");
+ if(sw&&!(C.SUPABASE_URL&&C.SUPABASE_ANON_KEY)){const g=document.createElement("button");g.id="guestBtn";g.type="button";g.className="btn alt sm";g.style.marginTop="12px";g.textContent="👤 Қонақ ретінде ойнау (аккаунтсыз)";
+  g.onclick=()=>{try{const U="dastan2026.users";let a={};try{a=JSON.parse(localStorage.getItem(U))||{}}catch(e){}
+   if(!a.guest)a.guest={name:"Guest",salt:"",it:1,hash:"!",t:Date.now()};localStorage.setItem(U,JSON.stringify(a));localStorage.setItem("dastan2026.session","guest")}catch(e){}location.reload()};
+  sw.parentNode.insertBefore(g,sw)}}
+function setLang(l){lang=l;cache.clear();try{localStorage.setItem('dastan2026.lang',l)}catch(e){}
+ document.documentElement.lang=l==='en'?'en':'kk';document.title=l==='en'?tr(titleKK):titleKK;{const md=document.querySelector('meta[name=description]');if(md){if(md._k===undefined)md._k=md.content;md.content=l==='en'?'Dastan2026 — a 100-level platformer: 7 maps, scary monsters, draw your own face.':md._k}}
+ b.querySelectorAll('span').forEach(s=>s.classList.toggle('on',s.dataset.l===l));apply(document.body)}
+b.onclick=()=>setLang(lang==='en'?'kk':'en');
+new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')doNode(m.target);else if(m.type==='attributes')doAttr(m.target,m.attributeName);else for(const n of m.addedNodes){if(n.nodeType===3)doNode(n);else if(n.nodeType===1)apply(n)}}})
+ .observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['title','aria-label']});
+setLang(lang);
+}catch(e){console.error("lang patch:",e)}};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run()})();
+</script>
+
 </body></html>
+
+
+
